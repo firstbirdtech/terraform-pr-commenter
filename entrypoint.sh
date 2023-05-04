@@ -283,8 +283,8 @@ $body
 # Handler: plan
 ###############
 execute_plan () {
-  delete_existing_comments 'plan' '### Terraform `plan` .* for Workspace: `'$WORKSPACE'`.*'
-  delete_existing_comments 'outputs' '### Changes to outputs for Workspace: `'$WORKSPACE'`.*'
+  # delete_existing_comments 'plan' '### Terraform `plan` .* for Workspace: `'$WORKSPACE'`.*'
+  # delete_existing_comments 'outputs' '### Changes to outputs for Workspace: `'$WORKSPACE'`.*'
 
   # Exit Code: 0, 2
   # Meaning: 0 = Terraform plan succeeded with no changes. 2 = Terraform plan succeeded with changes.
@@ -333,7 +333,7 @@ post_outputs_comments() {
 # Handler: fmt
 ##############
 execute_fmt () {
-  delete_existing_comments 'fmt' '### Terraform `fmt` Failed'
+  # delete_existing_comments 'fmt' '### Terraform `fmt` Failed'
 
   # Exit Code: 0
   # Meaning: All files formatted correctly.
@@ -387,7 +387,7 @@ $all_files_diff"
 # Handler: init
 ###############
 execute_init () {
-  delete_existing_comments "init" '### Terraform `init` Failed'
+  # delete_existing_comments "init" '### Terraform `init` Failed'
 
   # Exit Code: 0
   # Meaning: Terraform successfully initialized.
@@ -419,7 +419,7 @@ init_fail () {
 # Handler: validate
 ###################
 execute_validate () {
-  delete_existing_comments "validate" '### Terraform `validate` Failed'
+  # delete_existing_comments "validate" '### Terraform `validate` Failed'
 
   # Exit Code: 0
   # Meaning: Terraform successfully validated.
