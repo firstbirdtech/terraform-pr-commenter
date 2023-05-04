@@ -245,7 +245,6 @@ $body
 # Handler: plan
 ###############
 execute_plan () {
- 
   # Exit Code: 0, 2
   # Meaning: 0 = Terraform plan succeeded with no changes. 2 = Terraform plan succeeded with changes.
   # Actions: Strip out the refresh section, ignore everything after the 72 dashes, format, colourise and build PR comment.
