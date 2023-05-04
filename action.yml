@@ -60,6 +60,7 @@ runs:
         -e COMMENTER_ECHO \
         -e COMMENTER_PLAN_FILE \
         -e COMMENTER_POST_PLAN_OUTPUTS \
+        -e ENVIRONMENT \
         -v "$(pwd)"/:/workspace \
         commenter ${{ inputs.commenter_type }} ${{ inputs.commenter_exitcode }}
       shell: bash
@@ -78,6 +79,7 @@ runs:
         -e COMMENTER_INPUT \
         -e COMMENTER_DEBUG \
         -e COMMENTER_ECHO \
+        -e ENVIRONMENT \
         commenter ${{ inputs.commenter_type }} ${{ inputs.commenter_exitcode }}
       shell: bash
       if: ${{ inputs.commenter_type != 'plan' }}
