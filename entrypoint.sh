@@ -18,6 +18,11 @@ if [[ -z "$GITHUB_TOKEN" ]]; then
 	exit 1
 fi
 
+if [[ -z "$ENVIRONMENT" ]]; then
+	echo "ENVIRONMENT environment variable missing."
+	exit 1
+fi
+
 if [[ -z $2 ]]; then
     echo "There must be an exit code from a previous step."
     exit 1
@@ -283,9 +288,7 @@ $body
 # Handler: plan
 ###############
 execute_plan () {
-  # delete_existing_comments 'plan' '### Terraform `plan` .* for Workspace: `'$WORKSPACE'`.*'
-  # delete_existing_comments 'outputs' '### Changes to outputs for Workspace: `'$WORKSPACE'`.*'
-
+ 
   # Exit Code: 0, 2
   # Meaning: 0 = Terraform plan succeeded with no changes. 2 = Terraform plan succeeded with changes.
   # Actions: Strip out the refresh section, ignore everything after the 72 dashes, format, colourise and build PR comment.
@@ -309,7 +312,7 @@ plan_success () {
 }
 
 plan_fail () {
-  local comment=$(make_details_with_header "Terraform \`plan\` Failed for Workspace: \`$WORKSPACE\`" "$INPUT")
+  local comment=$(make_details_with_header "Terraform \`plan\` Failed for Environment: \`$ENVIRONMENT\`" "$INPUT")
 
   # Add plan comment to PR.
   make_and_post_payload "plan failure" "$comment"
@@ -319,14 +322,14 @@ post_plan_comments () {
   local clean_plan=$(echo "$INPUT" | perl -pe'$_="" unless /(An execution plan has been generated and is shown below.|Terraform used the selected providers to generate the following execution|No changes. Infrastructure is up-to-date.|No changes. Your infrastructure matches the configuration.)/ .. 1') # Strip refresh section
   clean_plan=$(echo "$clean_plan" | sed -r '/Plan: /q') # Ignore everything after plan summary
 
-  post_diff_comments "plan" "Terraform \`plan\` Succeeded for Workspace: \`$WORKSPACE\`" "$clean_plan"
+  post_diff_comments "plan" "Terraform \`plan\` Succeeded for Environment: \`$ENVIRONMENT\`" "$clean_plan"
 }
 
 post_outputs_comments() {
   local clean_plan=$(echo "$INPUT" | perl -pe'$_="" unless /Changes to Outputs:/ .. 1') # Skip to end of plan summary
   clean_plan=$(echo "$clean_plan" | sed -r '/------------------------------------------------------------------------/q') # Ignore everything after plan summary
 
-  post_diff_comments "outputs" "Changes to outputs for Workspace: \`$WORKSPACE\`" "$clean_plan"
+  post_diff_comments "outputs" "Changes to outputs for Environment: \`$ENVIRONMENT\`" "$clean_plan"
 }
 
 ##############
