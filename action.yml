@@ -30,12 +30,12 @@ runs:
   steps:
     - name: Build commenter docker image (master)
       if: inputs.use_beta_version != 'true'
-      run: docker build --build-arg TERRAFORM_VERSION=${{ inputs.terraform_version }} -t commenter https://github.com/GetTerminus/terraform-pr-commenter.git#master
+      run: docker build --build-arg TERRAFORM_VERSION=${{ inputs.terraform_version }} -t commenter https://github.com/firstbirdtech/terraform-pr-commenter.git#master
       shell: bash
     - name: Build commenter docker image (beta)
       if: inputs.use_beta_version == 'true'
       # append branch with a pound (#) if developing.  e.g., `commenter.git#my-branch`
-      run: docker build --build-arg TERRAFORM_VERSION=${{ inputs.terraform_version }} -t commenter https://github.com/GetTerminus/terraform-pr-commenter.git#v2-beta
+      run: docker build --build-arg TERRAFORM_VERSION=${{ inputs.terraform_version }} -t commenter https://github.com/GetTerminus/terraform-pr-commenter.git#v1
       shell: bash
     - name: Run commenter image (plan)
       env:
